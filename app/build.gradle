@@ -1,45 +1,83 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
-    compileSdk 30
-
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
     defaultConfig {
-        applicationId "romina.valiunas.weatherapp"
-        minSdk 21
-        targetSdk 30
+        applicationId "com.romina.valiunas.weatherapp"
+        minSdkVersion 17
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
+    buildFeatures {
+        viewBinding true
     }
 }
 
-dependencies {
+repositories {
+    maven { url "https://jitpack.io" }
+}
 
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(path: ':domain1')
+//    implementation project(path: ':di')
+    implementation project(path: ':data1')
+
+    def lib = rootProject.ext.generalDependencies
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation lib.coroutinesAndroid
+    implementation lib.coroutinesCore
+    implementation lib.androidx_viewmodel
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation lib.coreKtx
+    implementation lib.constraintlayout
+
+    // Room
+    implementation lib.room
+    kapt lib.room_compiler
+
+    // Dagger
+    implementation lib.dagger
+    kapt lib.daggerCompiler
+    implementation lib.daggerSupport
+    kapt lib.daggerProcessor
+
+    testImplementation lib.junit_version
+    androidTestImplementation lib.test_runner_version
+    androidTestImplementation lib.espresso_core_version
+
+    testImplementation lib.google_truth_version
+    testImplementation lib.mockito_version
+
+    testImplementation lib.coreTest
+    testImplementation lib.coroutinesCore
+    testImplementation lib.coroutinesAndroid
+    testImplementation lib.coroutinesTest
+
+    debugImplementation lib.chucker
+    releaseImplementation lib.chuckerReleaseImplementation
+
+    //cardView and recyclerview
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation "com.squareup.okhttp3:okhttp:4.9.0"
+
 }

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Weather App</string>
+    <string name="city_name">Montevideo</string>
+    <string name="no_weather">No Weather</string>
 </resources>
