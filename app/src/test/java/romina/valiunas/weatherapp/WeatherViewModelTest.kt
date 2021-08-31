@@ -1,8 +1,8 @@
 package romina.valiunas.weatherapp
 
-import androidx.lifecycle.Observer
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull
 import kotlinx.coroutines.*
@@ -20,7 +20,6 @@ import romina.valiunas.domain1.usecases.GetWeatherForecastByLocationUseCase
 import romina.valiunas.domain1.utils.Result
 import romina.valiunas.weatherapp.utils.Status
 import romina.valiunas.weatherapp.viewmodels.WeatherViewModel
-import java.lang.Exception
 
 class WeatherViewModelTest {
 
@@ -42,11 +41,16 @@ class WeatherViewModelTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     lateinit var subject: WeatherViewModel
-    @Mock lateinit var weatherValidResult: Result.Success<WeatherForecast>
-    @Mock lateinit var weatherInvalidResult: Result.Failure
-    @Mock lateinit var weatherForecast: WeatherForecast
-    @Mock lateinit var exception: Exception
-    @Mock lateinit var getWeatherForecastByLocationUseCase: GetWeatherForecastByLocationUseCase
+    @Mock
+    lateinit var weatherValidResult: Result.Success<WeatherForecast>
+    @Mock
+    lateinit var weatherInvalidResult: Result.Failure
+    @Mock
+    lateinit var weatherForecast: WeatherForecast
+    @Mock
+    lateinit var exception: Exception
+    @Mock
+    lateinit var getWeatherForecastByLocationUseCase: GetWeatherForecastByLocationUseCase
 
     @ExperimentalCoroutinesApi
     @ObsoleteCoroutinesApi

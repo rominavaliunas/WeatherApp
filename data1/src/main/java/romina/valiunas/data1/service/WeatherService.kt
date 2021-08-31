@@ -1,7 +1,7 @@
 package romina.valiunas.data1.service
 
 import android.content.Context
-import romina.valiunas.data1.*
+import romina.valiunas.data1.WeatherRequestGenerator
 import romina.valiunas.data1.mapper.WeatherMapperService
 import romina.valiunas.data1.service.api.WeatherApi
 import romina.valiunas.domain1.entities.WeatherForecast
@@ -16,6 +16,7 @@ class WeatherService(context: Context) {
         private const val API_EXCLUDE_VALUE = "hourly,minutely,current,alerts"
         private const val API_UNITS_METRIC = "metric"
     }
+
     private val api: WeatherRequestGenerator = WeatherRequestGenerator(context)
     private val mapper: WeatherMapperService = WeatherMapperService()
 
@@ -25,15 +26,16 @@ class WeatherService(context: Context) {
                 PUBLIC_LAT,
                 PUBLIC_LON,
                 API_EXCLUDE_VALUE,
-                API_UNITS_METRIC)
+                API_UNITS_METRIC
+            )
         try {
             val response = callResponse.execute()
-            if(response.isSuccessful) {
+            if (response.isSuccessful) {
                 response.body()?.let {
                     mapper.transform(it)
-               }?.let {
+                }?.let {
                     return Result.Success(it)
-               }
+                }
             }
             return Result.Failure(Exception(response.message()))
         } catch (e: RuntimeException) {

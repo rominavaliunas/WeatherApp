@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import romina.valiunas.domain1.entities.Weather
 import romina.valiunas.weatherapp.databinding.ItemBinding
-import java.util.*
 
 class WeatherReportAdapter(private val briefWeatherReports: List<Weather>) :
     RecyclerView.Adapter<WeatherReportAdapter.ReportViewHolder>() {

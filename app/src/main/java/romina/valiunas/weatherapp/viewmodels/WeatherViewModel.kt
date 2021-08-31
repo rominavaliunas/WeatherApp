@@ -9,12 +9,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import romina.valiunas.domain1.entities.WeatherForecast
 import romina.valiunas.domain1.usecases.GetWeatherForecastByLocationUseCase
+import romina.valiunas.domain1.utils.Result
 import romina.valiunas.weatherapp.utils.Data
 import romina.valiunas.weatherapp.utils.Event
 import romina.valiunas.weatherapp.utils.Status
-import romina.valiunas.domain1.utils.Result
 
-class WeatherViewModel(val getWeatherForecastByLocation: GetWeatherForecastByLocationUseCase): ViewModel() {
+class WeatherViewModel(val getWeatherForecastByLocation: GetWeatherForecastByLocationUseCase) :
+    ViewModel() {
 
     private var mutableMainState: MutableLiveData<Event<Data<WeatherForecast>>> = MutableLiveData()
     val mainState: LiveData<Event<Data<WeatherForecast>>>
@@ -25,7 +26,8 @@ class WeatherViewModel(val getWeatherForecastByLocation: GetWeatherForecastByLoc
     fun getWeatherForecast() = viewModelScope.launch {
         mutableMainState.value = Event(Data(responseType = Status.LOADING))
         when (val result = withContext(Dispatchers.IO) {
-            getWeatherForecastByLocation(true) }) {
+            getWeatherForecastByLocation(true)
+        }) {
             is Result.Failure -> {
                 mutableMainState.value =
                     Event(Data(responseType = Status.ERROR, error = result.exception))

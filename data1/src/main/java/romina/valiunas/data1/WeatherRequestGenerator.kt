@@ -50,7 +50,7 @@ class WeatherRequestGenerator(context: Context) {
                     "intercept: timeout/connection failure" +
                             "performing automatic retry ${(tryOuts + 1)}"
                 )
-                tryOuts ++
+                tryOuts++
                 response = chain.proceed(request)
             }
 
