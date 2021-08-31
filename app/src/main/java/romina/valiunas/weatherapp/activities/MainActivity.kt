@@ -1,16 +1,16 @@
 package romina.valiunas.weatherapp.activities
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import romina.valiunas.domain1.entities.Weather
+import romina.valiunas.domain1.entities.WeatherForecast
 import romina.valiunas.weatherapp.R
 import romina.valiunas.weatherapp.databinding.MainActivityBinding
-import romina.valiunas.weatherapp.utils.Data
-import romina.valiunas.weatherapp.utils.Event
-import romina.valiunas.weatherapp.utils.MINUS_ONE
-import romina.valiunas.weatherapp.utils.Status
+import romina.valiunas.weatherapp.utils.*
 import romina.valiunas.weatherapp.viewmodels.AppViewModelProvider
 import romina.valiunas.weatherapp.viewmodels.WeatherViewModel
 
@@ -21,22 +21,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: MainActivityBinding
+    private lateinit var adapter: WeatherReportAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var report = binding.rclWeatherReport
-        report.setHasFixedSize(true)
+        //ToDo reports =
 
         viewModel.mainState.observe(::getLifecycle, ::updateUI)
-
-        report.setOnClickListener { onSearchRemoteClicked() }
-        report.setOnClickListener { onSearchLocalClicked() }
+        viewModel.getWeatherForecast()
     }
 
-    private fun updateUI(weatherData: Event<Data<Weather>>) {
+    private fun initRecycler(weatherList: List<Weather>) {
+        binding.rclWeatherReport.setHasFixedSize(true)
+        binding.rclWeatherReport.layoutManager = LinearLayoutManager(this)
+        adapter = WeatherReportAdapter(weatherList)
+        binding.rclWeatherReport.adapter = adapter
+    }
+
+    private fun updateUI(weatherData: Event<Data<WeatherForecast>>) {
         when (weatherData.peekContent().responseType) {
             Status.ERROR -> {
                 hideProgress()
@@ -48,14 +53,11 @@ class MainActivity : AppCompatActivity() {
             }
             Status.SUCCESSFUL -> {
                 hideProgress()
-                weatherData.peekContent().data?.let { setWeather(it) }
+                weatherData.peekContent().data?.let {
+                    initRecycler(it.daily)
+                }
             }
         }
-    }
-
-    private fun getCurrentData() {
-        showProgress()
-
     }
 
     private fun showProgress() {
@@ -70,29 +72,7 @@ class MainActivity : AppCompatActivity() {
         //ToDo add fragment dialog later and set visibility attributes here
     }
 
-    private fun setWeather(weather: Weather) {
-        //binding with card view set the weather.description value to the text resource
-    }
-
     private fun showMessage(message: String) {
         Toast.makeText(this, message,Toast.LENGTH_LONG).show()
-    }
-
-    private fun onSearchRemoteClicked() {
-        val id = if(binding.weatherID.text.toString().isNotEmpty()) {
-            binding.weatherID.text.toString().toInt()
-        } else {
-            MINUS_ONE
-        }
-        viewModel.onSearchRemoteClicked(id)
-    }
-
-    private fun onSearchLocalClicked() {
-        val id = if (binding.weatherID.text.toString().isNotEmpty()) {
-            binding.weatherID.text.toString().toInt()
-        } else {
-            MINUS_ONE
-        }
-        viewModel.onSearchLocalClicked(id)
     }
 }

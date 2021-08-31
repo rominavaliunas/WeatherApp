@@ -1,19 +1,32 @@
 package romina.valiunas.data1.mapper
 
-import romina.valiunas.data1.service.response.WeatherResponse
+import romina.valiunas.data1.service.response.OneCallResponse
 import romina.valiunas.domain1.entities.Weather
+import romina.valiunas.domain1.entities.WeatherForecast
 
-open class WeatherMapperService : BaseMapperRepository<WeatherResponse, Weather> {
+open class WeatherMapperService : BaseMapperRepository<OneCallResponse, WeatherForecast> {
 
-    override fun transform(type: WeatherResponse): Weather = Weather(
-        type.id,
-        type.day,
-        type.description
-    )
+    companion object {
+        private const val IMAGE_URL = "https://openweathermap.org/img/wn/%s@2x.png"
+    }
 
-    override fun transformToRepository(type: Weather): WeatherResponse = WeatherResponse(
-        type.id,
-        type.day,
-        type.temperature
-    )
+    override fun transform(type: OneCallResponse): WeatherForecast {
+        return WeatherForecast(
+            type.daily.map { daily ->
+
+                val dailyWeather = daily.weather.first()
+                    Weather(
+                        date = daily.dt,
+                        temperature = daily.temp.day,
+                        description = dailyWeather.description,
+                        temperatureMax = daily.temp.max,
+                        temperatureMin = daily.temp.min,
+                        image = String.format(IMAGE_URL, dailyWeather.icon),
+                        thermalSensation = daily.feels_like.day,
+                        humidity = daily.humidity,
+                        windSpeed = daily.wind_speed
+                    )
+            }
+        )
+    }
 }

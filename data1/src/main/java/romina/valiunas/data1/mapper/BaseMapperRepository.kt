@@ -4,6 +4,6 @@ interface BaseMapperRepository <E, D> {
 
     fun transform(type: E): D
 
-    fun transformToRepository(type: D): E
+    //fun transformToRepository(type: D): E
 
 }

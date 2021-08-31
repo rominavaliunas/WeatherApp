@@ -1,33 +1,37 @@
 package romina.valiunas.data1.repositories
 
-import romina.valiunas.data1.database.WeatherDatabase
-import romina.valiunas.data1.mapper.WeatherMapperLocal
 import romina.valiunas.data1.service.WeatherService
-import romina.valiunas.domain1.entities.Weather
+import romina.valiunas.domain1.entities.WeatherForecast
 import romina.valiunas.domain1.repositories.WeatherRepository
 import romina.valiunas.domain1.utils.Result
 
 class WeatherRepositoryImpl(
     private val weatherService: WeatherService,
-    private val weatherDatabase: WeatherDatabase
+    //private val weatherDatabase: WeatherDatabase
 ) : WeatherRepository {
 
-    private val mapper = WeatherMapperLocal()
+    //private val mapper = WeatherMapperLocal()
 
-    override fun getWeatherById(id: Int, getFromRemote: Boolean): Result<Weather> =
+    override fun getWeatherByUrl (
+        getFromRemote: Boolean
+    ): Result<WeatherForecast>? =
         if (getFromRemote) {
-            val weatherResult = weatherService.getWeatherById(id)
+            val weatherResult = weatherService.getWeatherReport()
             if (weatherResult is Result.Success) {
-                insertOrUpdateWeather(weatherResult.data)
+                //insertOrUpdateWeather(weatherResult.data)
             }
             weatherResult
+        }else null
+/*
         } else {
-            weatherDatabase.weatherDao().findById(id)?.let {
-                return Result.Success(mapper.transform(it))
+            Log.d("TAG", "")
+        } else {
+            weatherDatabase.weatherDao().findById(lat)?.let {
+                return Result.Success()
             } ?: Result.Failure(Exception("Weather not found"))
-        }
-
-    private fun insertOrUpdateWeather(weather: Weather) {
+        }*/
+/*
+    private fun insertOrUpdateWeather(weather: WeatherResponse) {
         weatherDatabase.weatherDao().insert(mapper.transformToRepository(weather))
-    }
+    }*/
 }

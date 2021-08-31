@@ -1,20 +1,17 @@
 package romina.valiunas.data1.mapper
 
 import romina.valiunas.data1.database.entity.WeatherRoom
-import romina.valiunas.domain1.entities.Weather
-
-class WeatherMapperLocal : BaseMapperRepository<WeatherRoom, Weather> {
+/*
+class WeatherMapperLocal : BaseMapperRepository<WeatherRoom, WeatherResponse> {
 
     override fun transform(type: WeatherRoom): Weather = Weather(
-        type.id,
-        type.day,
-        type.description
+        type.lat,
+        type.lon
         )
 
-    override fun transformToRepository(type: Weather): WeatherRoom = WeatherRoom(
-        type.id,
-        type.day,
-        type.temperature
+    override fun transformToRepository(type: WeatherResponse): WeatherRoom = WeatherRoom(
+        type.lat,
+        type.lon,
     )
 
-}
+}*/

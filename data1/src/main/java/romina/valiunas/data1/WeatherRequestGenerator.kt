@@ -8,18 +8,15 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val PRIVATE_API_KEY_ARG = "hash"
-private const val PRIVATE_API_KEY_ARG_VALUE = "8ebd379149d419fdfdfa2690f2e930f8"
-private const val PUBLIC_API_KEY_ARG = "apikey"
-private const val PUBLIC_API_KEY_ARG_VALUE = "8ebd379149d419fdfdfa2690f2e930f8"
-private const val WEATHER_BASE_URL = "https://openweathermap.org/data/2.5/"
-private const val TS = "ts"
-private const val TS_VALUE = "1"
-private const val MAX_TRYOUTS = 3
-private const val INIT_TRYOUT = 1
-
-
 class WeatherRequestGenerator(context: Context) {
+
+    companion object {
+        private const val API_KEY_ARG_VALUE = "8ebd379149d419fdfdfa2690f2e930f8"
+        private const val API_KEY_ARG = "apikey"
+        private const val WEATHER_BASE_URL = "https://api.openweathermap.org/data/2.5/"
+        private const val MAX_TRYOUTS = 3
+        private const val INIT_TRYOUT = 1
+    }
 
     private val httpClient = OkHttpClient.Builder()
         .addInterceptor(
@@ -31,12 +28,10 @@ class WeatherRequestGenerator(context: Context) {
         .addInterceptor { chain ->
             val defaultRequest = chain.request()
 
-            val defaultHttpUrl = defaultRequest.url()
+            val defaultHttpUrl = defaultRequest.url
 
             val httpUrl = defaultHttpUrl.newBuilder()
-                .addQueryParameter(PUBLIC_API_KEY_ARG, PRIVATE_API_KEY_ARG_VALUE)
-                .addQueryParameter(PRIVATE_API_KEY_ARG, PUBLIC_API_KEY_ARG_VALUE)
-                .addQueryParameter(TS, TS_VALUE)
+                .addQueryParameter(API_KEY_ARG, API_KEY_ARG_VALUE)
                 .build()
 
             val requestBuilder = defaultRequest.newBuilder()

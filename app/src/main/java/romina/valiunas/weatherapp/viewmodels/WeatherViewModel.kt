@@ -7,42 +7,32 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import romina.valiunas.domain1.entities.Weather
-import romina.valiunas.domain1.usecases.GetWeatherByIdUseCase
+import romina.valiunas.domain1.entities.WeatherForecast
+import romina.valiunas.domain1.usecases.GetWeatherForecastByLocationUseCase
 import romina.valiunas.weatherapp.utils.Data
 import romina.valiunas.weatherapp.utils.Event
 import romina.valiunas.weatherapp.utils.Status
 import romina.valiunas.domain1.utils.Result
 
-class WeatherViewModel(val getWeatherById: GetWeatherByIdUseCase): ViewModel() {
+class WeatherViewModel(val getWeatherForecastByLocation: GetWeatherForecastByLocationUseCase): ViewModel() {
 
-    private var mutableMainState: MutableLiveData<Event<Data<Weather>>> = MutableLiveData()
-    val mainState: LiveData<Event<Data<Weather>>>
+    private var mutableMainState: MutableLiveData<Event<Data<WeatherForecast>>> = MutableLiveData()
+    val mainState: LiveData<Event<Data<WeatherForecast>>>
         get() {
             return mutableMainState
         }
 
-    fun onSearchRemoteClicked(id:Int) = viewModelScope.launch {
-        mutableMainState.value = Event(Data(responseType = Status.LOADING))
-        when (val result = withContext(Dispatchers.IO) {getWeatherById(id, true)}) {
-            is Result.Failure -> {
-                mutableMainState.value = Event(Data(responseType = Status.ERROR, error = result.exception))
-            }
-            is Result.Success -> {
-                mutableMainState.value = Event(Data(responseType = Status.SUCCESSFUL, data = result.data))
-            }
-        }
-    }
-
-    fun onSearchLocalClicked(id: Int) = viewModelScope.launch {
+    fun getWeatherForecast() = viewModelScope.launch {
         mutableMainState.value = Event(Data(responseType = Status.LOADING))
         when (val result = withContext(Dispatchers.IO) {
-            getWeatherById(id, false) }) {
+            getWeatherForecastByLocation(true) }) {
             is Result.Failure -> {
-                mutableMainState.value = Event(Data(responseType = Status.ERROR, error = result.exception))
+                mutableMainState.value =
+                    Event(Data(responseType = Status.ERROR, error = result.exception))
             }
             is Result.Success -> {
-                mutableMainState.value = Event(Data(responseType = Status.SUCCESSFUL, data = result.data))
+                mutableMainState.value =
+                    Event(Data(responseType = Status.SUCCESSFUL, data = result.data))
             }
         }
     }

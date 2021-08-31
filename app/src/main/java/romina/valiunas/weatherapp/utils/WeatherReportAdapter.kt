@@ -3,8 +3,10 @@ package romina.valiunas.weatherapp.utils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import romina.valiunas.domain1.entities.Weather
 import romina.valiunas.weatherapp.databinding.ItemBinding
+import java.util.*
 
 class WeatherReportAdapter(private val briefWeatherReports: List<Weather>) :
     RecyclerView.Adapter<WeatherReportAdapter.ReportViewHolder>() {
@@ -17,8 +19,10 @@ class WeatherReportAdapter(private val briefWeatherReports: List<Weather>) :
     override fun onBindViewHolder(holder: ReportViewHolder, position: Int) {
         val reportItem = briefWeatherReports[position]
         holder.binding.run {
-            textDayOfTheWeek.text = reportItem.day
-            textTemperature.text = reportItem.temperature
+            textDayOfTheWeek.text = LongToDateConverter().getTheDay(reportItem.date)
+            textTemperature.text = reportItem.temperature.toString()
+            textDescription.text = reportItem.description
+            Glide.with(holder.itemView.context).load(reportItem.image).into(imageWeather)
         }
     }
 

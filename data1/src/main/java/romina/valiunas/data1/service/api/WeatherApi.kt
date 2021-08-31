@@ -1,16 +1,17 @@
 package romina.valiunas.data1.service.api
 
-import retrofit2.Call
 import retrofit2.http.GET
-import retrofit2.http.Path
-import romina.valiunas.data1.EXCLUDE
-import romina.valiunas.data1.PUBLIC_LAT
-import romina.valiunas.data1.PUBLIC_LON
-import romina.valiunas.data1.database.response.DataBaseResponse
-import romina.valiunas.data1.service.response.WeatherBaseResponse
-import romina.valiunas.data1.service.response.WeatherResponse
+import retrofit2.http.Query
+import retrofit2.Call
+import romina.valiunas.data1.service.response.OneCallResponse
+import romina.valiunas.domain1.entities.WeatherForecast
 
 interface WeatherApi {
-    @GET("onecall?lat=${PUBLIC_LAT}&lon=${PUBLIC_LON}&exclude=${EXCLUDE}&appid={apikey}")
-    fun getWeatherByLatAndLon(@Path("weatherId")id: Int): Call<WeatherBaseResponse<DataBaseResponse<ArrayList<WeatherResponse>>>>
+
+    @GET("onecall")
+    fun getWeatherByLatAndLon(
+        @Query("lat") lat: String,
+        @Query("lon") lon: String,
+        @Query("exclude") exclude: String,
+        @Query("units") units: String): Call<OneCallResponse>
 }
