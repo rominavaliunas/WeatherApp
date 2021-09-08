@@ -17,7 +17,7 @@ abstract class WeatherDatabase : RoomDatabase() {
 
         @Synchronized
         fun getInstance(context: Context): WeatherDatabase {
-            if(!this::instance.isInitialized) {
+            if (!this::instance.isInitialized) {
                 instance = Room.databaseBuilder(
                     context.applicationContext,
                     WeatherDatabase::class.java,

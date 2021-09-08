@@ -15,17 +15,17 @@ open class WeatherMapperService : BaseMapperRepository<OneCallResponse, WeatherF
             type.daily.map { daily ->
 
                 val dailyWeather = daily.weather.first()
-                    Weather(
-                        date = daily.dt,
-                        temperature = daily.temp.day,
-                        description = dailyWeather.description,
-                        temperatureMax = daily.temp.max,
-                        temperatureMin = daily.temp.min,
-                        image = String.format(IMAGE_URL, dailyWeather.icon),
-                        thermalSensation = daily.feels_like.day,
-                        humidity = daily.humidity,
-                        windSpeed = daily.wind_speed
-                    )
+                Weather(
+                    date = daily.dt,
+                    temperature = daily.temp.day,
+                    description = dailyWeather.description,
+                    temperatureMax = daily.temp.max,
+                    temperatureMin = daily.temp.min,
+                    image = String.format(IMAGE_URL, dailyWeather.icon),
+                    thermalSensation = daily.feels_like.day,
+                    humidity = daily.humidity,
+                    windSpeed = daily.wind_speed
+                )
             }
         )
     }

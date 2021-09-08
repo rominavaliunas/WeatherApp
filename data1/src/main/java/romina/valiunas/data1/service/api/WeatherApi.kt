@@ -1,10 +1,9 @@
 package romina.valiunas.data1.service.api
 
+import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
-import retrofit2.Call
 import romina.valiunas.data1.service.response.OneCallResponse
-import romina.valiunas.domain1.entities.WeatherForecast
 
 interface WeatherApi {
 
@@ -13,5 +12,6 @@ interface WeatherApi {
         @Query("lat") lat: String,
         @Query("lon") lon: String,
         @Query("exclude") exclude: String,
-        @Query("units") units: String): Call<OneCallResponse>
+        @Query("units") units: String
+    ): Call<OneCallResponse>
 }
