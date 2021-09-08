@@ -5,7 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -17,9 +21,9 @@ import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.whenever
 import romina.valiunas.domain1.entities.WeatherForecast
 import romina.valiunas.domain1.usecases.GetWeatherForecastByLocationUseCase
+import romina.valiunas.weatherapp.viewmodels.WeatherViewModel
 import romina.valiunas.domain1.utils.Result
 import romina.valiunas.weatherapp.utils.Status
-import romina.valiunas.weatherapp.viewmodels.WeatherViewModel
 
 class WeatherViewModelTest {
 
