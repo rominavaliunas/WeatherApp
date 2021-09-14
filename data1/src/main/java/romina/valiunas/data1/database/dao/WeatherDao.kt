@@ -9,9 +9,12 @@ import romina.valiunas.data1.database.entity.WeatherRoom
 @Dao
 interface WeatherDao {
 
-    @Query("SELECT * FROM weather WHERE lat = :id")
-    fun findById(id: String): WeatherRoom?
+    @Query("SELECT * FROM weather")
+    fun findAll(): List<WeatherRoom>?
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(weather: WeatherRoom)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(weatherList: List<WeatherRoom>)
+
+    @Query("DELETE FROM weather")
+    fun deleteAll()
 }

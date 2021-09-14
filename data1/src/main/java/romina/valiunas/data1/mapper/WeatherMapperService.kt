@@ -29,4 +29,8 @@ open class WeatherMapperService : BaseMapperRepository<OneCallResponse, WeatherF
             }
         )
     }
+
+    override fun transformToRepository(type: WeatherForecast): OneCallResponse {
+        TODO("Not yet implemented")
+    }
 }

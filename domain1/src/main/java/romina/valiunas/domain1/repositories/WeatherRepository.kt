@@ -4,5 +4,5 @@ import romina.valiunas.domain1.entities.WeatherForecast
 import romina.valiunas.domain1.utils.Result
 
 interface WeatherRepository {
-    fun getWeatherByUrl(getFromRemote: Boolean): Result<WeatherForecast>?
+    fun getWeatherByLatAndLon(getFromRemote: Boolean): Result<WeatherForecast>
 }

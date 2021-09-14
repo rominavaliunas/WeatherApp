@@ -1,7 +1,8 @@
 package romina.valiunas.weatherapp.utils
 
 data class Data<RequestData>(
-    var responseType: Status, var data: RequestData? = null,
+    var responseType: Status,
+    var data: RequestData? = null,
     var error: Exception? = null
 )
 

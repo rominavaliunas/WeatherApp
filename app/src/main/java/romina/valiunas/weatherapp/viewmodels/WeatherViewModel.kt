@@ -38,4 +38,19 @@ class WeatherViewModel(val getWeatherForecastByLocation: GetWeatherForecastByLoc
             }
         }
     }
+
+    fun getWeatherForecastLocal() = viewModelScope.launch {
+        when (val result = withContext(Dispatchers.IO) {
+            getWeatherForecastByLocation(getFromRemote = false)
+        }) {
+            is Result.Failure -> {
+                mutableMainState.value =
+                    Event(Data(responseType = Status.ERROR, error = result.exception))
+            }
+            is Result.Success -> {
+                mutableMainState.value =
+                    Event(Data(responseType = Status.SUCCESSFUL, data = result.data))
+            }
+        }
+    }
 }

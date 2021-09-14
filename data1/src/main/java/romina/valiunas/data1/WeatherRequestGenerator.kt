@@ -53,7 +53,6 @@ class WeatherRequestGenerator(context: Context) {
                 tryOuts++
                 response = chain.proceed(request)
             }
-
             response
         }
 

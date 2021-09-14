@@ -1,7 +1,6 @@
 plugins {
     id 'java-library'
     id 'kotlin'
-    // id 'kotlin-kapt'
 }
 
 repositories {
@@ -14,7 +13,6 @@ dependencies {
 
     def lib = rootProject.ext.generalDependencies
     implementation lib.dagger
-    // kapt lib.daggerCompiler
 }
 
 java {
