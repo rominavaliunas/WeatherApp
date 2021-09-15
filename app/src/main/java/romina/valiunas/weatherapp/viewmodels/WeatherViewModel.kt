@@ -46,10 +46,12 @@ class WeatherViewModel(val getWeatherForecastByLocation: GetWeatherForecastByLoc
             is Result.Failure -> {
                 mutableMainState.value =
                     Event(Data(responseType = Status.ERROR, error = result.exception))
+                getWeatherForecast()
             }
             is Result.Success -> {
                 mutableMainState.value =
                     Event(Data(responseType = Status.SUCCESSFUL, data = result.data))
+                getWeatherForecast()
             }
         }
     }

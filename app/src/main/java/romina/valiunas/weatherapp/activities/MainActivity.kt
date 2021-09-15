@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel.mainState.observe(::getLifecycle, ::updateUI)
-        viewModel.getWeatherForecast()
+        viewModel.getWeatherForecastLocal()
     }
 
     private fun initRecycler(weatherList: List<Weather>) {
